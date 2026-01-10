@@ -1,0 +1,63 @@
+
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neturi sveci zem pūra</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --font-serif: 'Crimson Pro', serif;
+            --font-sans: 'Inter', sans-serif;
+        }
+        body {
+            font-family: var(--font-sans);
+            background-color: #0f172a;
+            color: #f1f5f9;
+            line-height: 1.6;
+        }
+        h1, h2, h3, .serif {
+            font-family: var(--font-serif);
+            font-weight: 600;
+        }
+        .bg-wood {
+            background-color: #1a0f06;
+            background-image: 
+                linear-gradient(to bottom, rgba(0,0,0,0.6) 0%, transparent 15%, transparent 85%, rgba(0,0,0,0.7) 100%),
+                repeating-linear-gradient(to bottom, 
+                    #2d1b0d 0px, 
+                    #2d1b0d 80px, 
+                    #1a0f06 82px, 
+                    #1a0f06 84px
+                ),
+                url("https://www.transparenttextures.com/patterns/pinstriped-suit.png");
+            background-blend-mode: overlay, normal, multiply;
+            box-shadow: inset 0 0 150px rgba(0,0,0,0.9);
+        }
+        @keyframes fadeIn {
+          from { opacity: 0; transform: translateY(10px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in {
+          animation: fadeIn 0.6s ease-out forwards;
+        }
+    </style>
+<script type="importmap">
+{
+  "imports": {
+    "react/": "https://esm.sh/react@^19.2.3/",
+    "react": "https://esm.sh/react@^19.2.3",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+    "@google/genai": "https://esm.sh/@google/genai@^1.35.0"
+  }
+}
+</script>
+</head>
+<body>
+    <div id="root"></div>
+</body>
+</html>
