@@ -44,11 +44,9 @@ const App: React.FC = () => {
       setStatus(AppStatus.LOADING_TEXT);
       setError(null);
       
-      // 1. Iegūstam teksta skaidrojumu un stāstu
       const data = await generateProverbStory(currentProverb);
       setStoryData(data);
       
-      // 2. Uzreiz sākam attēlu ģenerēšanu
       setStatus(AppStatus.LOADING_IMAGE);
       const [symbolicUrl, storyUrl] = await Promise.all([
         generateProverbIllustration(currentProverb, data.story, true),
@@ -71,26 +69,26 @@ const App: React.FC = () => {
   const showContent = storyData || images.length > 0 || status !== AppStatus.IDLE || error;
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#0f172a] text-slate-100 font-sans">
+    <div className="min-h-screen flex flex-col bg-[#0a0f1d] text-slate-100 font-sans">
       {/* Header Section */}
-      <header className="relative py-8 md:py-16 px-4 text-center bg-wood border-b border-amber-900/30 overflow-hidden">
+      <header className="relative py-12 md:py-20 px-4 text-center bg-wood border-b border-black/40 overflow-hidden">
         <div className="max-w-5xl mx-auto flex flex-col items-center relative z-10">
-          <div className="flex justify-center -mb-6 -mt-6">
+          <div className="flex justify-center -mb-8 -mt-10">
              <CandleVisual />
           </div>
           
-          <div className="w-full max-w-4xl px-4">
-            <h1 className="text-4xl md:text-6xl font-bold text-amber-50 drop-shadow-lg mb-8 italic serif leading-tight">
+          <div className="w-full max-w-4xl px-4 mt-6">
+            <h1 className="text-4xl md:text-7xl font-bold text-amber-50 drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] mb-10 italic serif leading-tight">
               "{currentProverb}"
             </h1>
             
-            <div className="relative group max-w-lg mx-auto mb-8">
+            <div className="relative group max-w-xl mx-auto mb-8 shadow-2xl">
               <input 
                 type="text" 
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
                 placeholder=""
-                className="w-full px-5 py-3 md:py-4 bg-slate-900/90 border border-amber-900/40 rounded-xl text-slate-100 placeholder-slate-500 focus:outline-none focus:border-amber-600/60 transition-all text-sm md:text-base shadow-lg backdrop-blur-md"
+                className="w-full px-6 py-4 md:py-5 bg-[#0a0f1d]/95 border border-amber-900/20 rounded-xl text-slate-100 placeholder-slate-500 focus:outline-none focus:border-amber-600/40 transition-all text-sm md:text-lg shadow-inner"
                 onKeyDown={(e) => {
                   if (e.key === 'Enter' && inputValue.trim()) {
                     handleProverbChange(inputValue);
@@ -99,21 +97,21 @@ const App: React.FC = () => {
               />
               <button 
                 onClick={() => inputValue.trim() && handleProverbChange(inputValue)}
-                className="absolute right-1.5 top-1.5 bottom-1.5 px-5 bg-amber-700 hover:bg-amber-600 text-white rounded-lg transition-colors font-semibold text-xs md:text-sm uppercase tracking-wider"
+                className="absolute right-2 top-2 bottom-2 px-6 bg-[#c05c21] hover:bg-[#a64d1a] text-white rounded-lg transition-colors font-bold text-xs md:text-sm uppercase tracking-widest shadow-lg"
               >
                 Mainīt
               </button>
             </div>
 
-            <div className="flex flex-wrap gap-2.5 justify-center">
+            <div className="flex flex-wrap gap-3 justify-center">
               {POPULAR_PROVERBS.map(p => (
                 <button
                   key={p}
                   onClick={() => handleProverbChange(p)}
-                  className={`text-[10px] md:text-xs px-3 py-1.5 rounded-full border transition-all font-medium uppercase tracking-widest ${
+                  className={`text-[10px] md:text-xs px-4 py-2 rounded-full border transition-all font-medium uppercase tracking-widest shadow-md ${
                     currentProverb === p 
-                    ? 'bg-amber-600/20 text-amber-400 border-amber-500/40' 
-                    : 'bg-transparent hover:bg-white/5 text-slate-400 border-slate-800'
+                    ? 'bg-amber-600/10 text-amber-500 border-amber-500/40' 
+                    : 'bg-black/20 hover:bg-black/40 text-slate-400 border-white/5'
                   }`}
                 >
                   {p}
@@ -122,11 +120,11 @@ const App: React.FC = () => {
             </div>
           </div>
           
-          <div className="mt-10 flex justify-center w-full max-w-sm px-6">
+          <div className="mt-12 flex justify-center w-full max-w-md px-6">
             <button 
               onClick={handleExplore}
               disabled={status !== AppStatus.IDLE || !currentProverb}
-              className="w-full px-12 py-4 bg-amber-700 hover:bg-amber-600 disabled:opacity-50 text-white font-bold text-sm md:text-base uppercase tracking-[0.2em] rounded-full shadow-2xl transition-all active:scale-95 border border-amber-500/30"
+              className="w-full px-12 py-5 bg-[#c05c21] hover:bg-[#a64d1a] disabled:opacity-50 text-white font-bold text-base md:text-lg uppercase tracking-[0.25em] rounded-full shadow-[0_10px_30px_rgba(0,0,0,0.6)] transition-all active:scale-95 border border-white/10"
             >
               {status === AppStatus.LOADING_TEXT ? 'Pētām gudrību...' : 
                status === AppStatus.LOADING_IMAGE ? 'Gleznojam ainas...' : 
@@ -134,6 +132,9 @@ const App: React.FC = () => {
             </button>
           </div>
         </div>
+        
+        {/* Shadow Overlay at the bottom of header */}
+        <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-[#0a0f1d] to-transparent" />
       </header>
 
       {/* Main Content Area */}
@@ -173,8 +174,7 @@ const App: React.FC = () => {
                       <p className="text-base md:text-lg text-slate-100 font-normal leading-relaxed">{storyData.modernUsage}</p>
                     </div>
 
-                    {/* Story Box */}
-                    <div className="mt-16 p-8 md:p-12 border border-slate-800 bg-slate-900/20 rounded-2xl">
+                    <div className="mt-16 p-8 md:p-12 border border-white/5 bg-white/5 rounded-2xl shadow-xl">
                       <h3 className="text-2xl md:text-3xl font-bold text-slate-100 serif mb-6 italic tracking-tight">Tautas viedums stāstā</h3>
                       <p className="text-base md:text-lg text-slate-300 leading-relaxed font-light font-sans">
                         {storyData.story}
@@ -202,39 +202,20 @@ const App: React.FC = () => {
               {images.length > 0 ? (
                 <div className="flex flex-col gap-12 animate-fade-in">
                   {images.map((img, idx) => (
-                    <div key={idx} className="space-y-4">
-                      <header className="flex items-center gap-3">
-                        <span className="text-[10px] uppercase tracking-[0.3em] text-amber-500/60 font-bold serif">
-                          {img.type === 'symbolic' ? 'Simboliska asociācija' : 'Stāsta ilustrācija'}
-                        </span>
-                        <div className="h-px flex-grow bg-slate-800" />
-                      </header>
-                      <div className="rounded-2xl overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-slate-800 transition-all duration-500 hover:scale-[1.01]">
-                        <img 
-                          src={img.url} 
-                          alt={`${currentProverb} - ${img.type === 'symbolic' ? 'Simboliski' : 'Stāsts'}`} 
-                          className="w-full h-auto object-cover"
-                        />
-                      </div>
+                    <div key={idx} className="rounded-2xl overflow-hidden shadow-[0_30px_60px_rgba(0,0,0,0.8)] border border-white/5 transition-all duration-500 hover:scale-[1.01]">
+                      <img 
+                        src={img.url} 
+                        alt={`${currentProverb} - ${img.type === 'symbolic' ? 'Simboliski' : 'Stāsts'}`} 
+                        className="w-full h-auto object-cover"
+                      />
                     </div>
                   ))}
                 </div>
               ) : (status === AppStatus.LOADING_IMAGE || status === AppStatus.LOADING_TEXT) ? (
                 <div className="flex flex-col gap-12">
-                  {[
-                    { label: 'Simbolisks tēls' },
-                    { label: 'Sižeta aina' }
-                  ].map((item, i) => (
-                    <div key={i} className="space-y-4">
-                       <header className="flex items-center gap-3 opacity-30">
-                        <span className="text-[10px] uppercase tracking-[0.3em] text-amber-500 font-bold serif">
-                          {item.label}
-                        </span>
-                        <div className="h-px flex-grow bg-slate-800" />
-                      </header>
-                      <div className="aspect-[16/9] bg-slate-900/40 animate-pulse rounded-2xl flex items-center justify-center border border-slate-800">
-                        <span className="text-amber-500/20 text-[10px] font-semibold uppercase tracking-[0.4em] serif">Top vizualizācija...</span>
-                      </div>
+                  {[0, 1].map((i) => (
+                    <div key={i} className="aspect-[16/9] bg-white/5 animate-pulse rounded-2xl flex items-center justify-center border border-white/5">
+                      <span className="text-amber-500/20 text-[10px] font-semibold uppercase tracking-[0.4em] serif">Top vizualizācija...</span>
                     </div>
                   ))}
                 </div>
@@ -245,10 +226,10 @@ const App: React.FC = () => {
       )}
 
       {/* Footer */}
-      <footer className="py-8 px-6 bg-slate-950/80 text-center border-t border-slate-900/50 mt-auto">
-        <div className="max-w-3xl mx-auto flex flex-col items-center gap-1.5">
-          <span className="text-[10px] md:text-xs uppercase tracking-[0.4em] font-bold text-amber-800/80 serif">Latviešu dzīvesziņa</span>
-          <span className="text-[9px] md:text-[11px] font-medium text-slate-700 tracking-wider uppercase">© 2026</span>
+      <footer className="py-16 px-6 bg-black text-center border-t border-white/5 mt-auto">
+        <div className="max-w-3xl mx-auto flex flex-col items-center gap-4">
+          <span className="text-2xl md:text-3xl uppercase tracking-[0.4em] font-bold text-amber-800/60 serif">Latviešu dzīvesziņa</span>
+          <span className="text-xs md:text-sm font-medium text-slate-800 tracking-widest uppercase">2026</span>
         </div>
       </footer>
     </div>
