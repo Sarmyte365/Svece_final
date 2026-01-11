@@ -79,7 +79,7 @@ const App: React.FC = () => {
           
           <div className="w-full max-w-4xl px-4 mt-6">
             <h1 className="text-4xl md:text-7xl font-bold text-amber-50 drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] mb-10 italic serif leading-tight">
-              "{currentProverb}"
+              {currentProverb}
             </h1>
             
             <div className="relative group max-w-xl mx-auto mb-8 shadow-2xl">
