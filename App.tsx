@@ -118,7 +118,7 @@ const App: React.FC = () => {
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
                 placeholder="Ieraksti citu teicienu..."
-                className="w-full px-6 py-4 md:py-5 bg-[#0a0f1d]/90 border border-amber-900/30 rounded-xl text-slate-100 placeholder-slate-500 focus:outline-none focus:border-amber-600/40 transition-all text-sm md:text-lg shadow-inner"
+                className="w-full px-8 py-4 md:py-5 bg-[#0a0f1d]/90 border border-amber-900/30 rounded-full text-slate-100 placeholder-slate-500 focus:outline-none focus:border-amber-600/40 transition-all text-sm md:text-lg shadow-inner"
                 onKeyDown={(e) => {
                   if (e.key === 'Enter' && inputValue.trim()) {
                     handleProverbChange(inputValue);
@@ -127,7 +127,7 @@ const App: React.FC = () => {
               />
               <button 
                 onClick={() => inputValue.trim() && handleProverbChange(inputValue)}
-                className="absolute right-2 top-2 bottom-2 px-6 bg-[#c05c21] hover:bg-[#a64d1a] text-white rounded-lg transition-colors font-bold text-xs md:text-sm uppercase tracking-widest shadow-lg"
+                className="absolute right-2 top-2 bottom-2 px-6 bg-[#c05c21] hover:bg-[#a64d1a] text-white rounded-full transition-colors font-bold text-xs md:text-sm uppercase tracking-widest shadow-lg"
               >
                 Mainīt
               </button>
@@ -168,7 +168,7 @@ const App: React.FC = () => {
       {showContent && (
         <main className="flex-grow container mx-auto px-4 md:px-8 lg:px-16 py-12 md:py-24 relative z-10">
           {error && (
-            <div className="mb-12 p-6 bg-red-950/20 border border-red-900/30 rounded-lg text-red-200 text-center text-sm font-medium shadow-lg">
+            <div className="mb-12 p-6 bg-red-950/20 border border-red-900/30 rounded-full text-red-200 text-center text-sm font-medium shadow-lg">
               {error}
             </div>
           )}
@@ -204,7 +204,7 @@ const App: React.FC = () => {
                       <p className="text-base md:text-lg text-slate-100 font-normal leading-relaxed opacity-90">{storyData.modernUsage}</p>
                     </div>
 
-                    <div className="mt-16 p-8 md:p-12 border border-white/5 bg-white/5 rounded-2xl shadow-2xl relative overflow-hidden">
+                    <div className="mt-16 p-8 md:p-12 border border-white/5 bg-white/5 rounded-3xl shadow-2xl relative overflow-hidden">
                       <div className="absolute top-0 right-0 p-4 opacity-[0.05]">
                          <LatvianSymbol type="jumis" className="w-16 h-16" />
                       </div>
@@ -217,14 +217,14 @@ const App: React.FC = () => {
                 </div>
               ) : status === AppStatus.LOADING_TEXT ? (
                  <div className="animate-pulse space-y-12">
-                   <div className="h-10 w-64 bg-slate-800 rounded" />
+                   <div className="h-10 w-64 bg-slate-800 rounded-full" />
                    <div className="space-y-4">
-                     <div className="h-6 w-32 bg-slate-800 rounded" />
-                     <div className="h-24 w-full bg-slate-800/50 rounded-xl" />
+                     <div className="h-6 w-32 bg-slate-800 rounded-full" />
+                     <div className="h-24 w-full bg-slate-800/50 rounded-2xl" />
                    </div>
                    <div className="space-y-4">
-                     <div className="h-6 w-32 bg-slate-800 rounded" />
-                     <div className="h-24 w-full bg-slate-800/50 rounded-xl" />
+                     <div className="h-6 w-32 bg-slate-800 rounded-full" />
+                     <div className="h-24 w-full bg-slate-800/50 rounded-2xl" />
                    </div>
                  </div>
               ) : null}
