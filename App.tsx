@@ -238,14 +238,9 @@ const App: React.FC = () => {
                     <div key={idx} className="group relative rounded-2xl overflow-hidden shadow-[0_30px_70px_rgba(0,0,0,0.9)] border border-white/5 transition-all duration-700 hover:scale-[1.02] bg-black/40">
                       <img 
                         src={img.url} 
-                        alt={`${currentProverb} - ${img.type === 'symbolic' ? 'Simboliski' : 'Stāsts'}`} 
+                        alt={`${currentProverb} ilustrācija`} 
                         className="w-full h-auto object-cover"
                       />
-                      <div className="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
-                        <span className="text-[10px] uppercase tracking-widest text-amber-200 font-semibold">
-                          {img.type === 'symbolic' ? 'Simboliska interpretācija' : 'Aina no stāsta'}
-                        </span>
-                      </div>
                     </div>
                   ))}
                 </div>

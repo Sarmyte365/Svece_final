@@ -35,8 +35,8 @@ export const generateProverbIllustration = async (proverb: string, storyContext?
   const ai = getAI();
   
   const prompt = isSymbolic 
-    ? `Create a mystical, ethereal oil painting inspired by the essence of the Latvian proverb "${proverb}". Use a surreal, poetic style with atmospheric lighting, rich textures, and symbolic Latvian nature elements (mist, glowing amber, oak, twilight). Similar to a Van Gogh or starry night vibe but with Baltic folk motifs. STRICTLY NO TEXT, NO LETTERS, NO NUMBERS, AND NO CAPTIONS IN THE IMAGE. Purely visual fine art.`
-    : `A cinematic and realistic historical oil painting of a traditional Latvian scene: "${storyContext}". Set in 19th-century Latvia, showing authentic folk clothing, wooden tools, moody chiaroscuro lighting, and emotional human interaction. STRICTLY NO TEXT, NO WRITING, NO LABELS, NO LETTERS, AND NO CAPTIONS IN THE IMAGE. Purely visual storytelling through painting.`;
+    ? `A mystical and poetic fine art oil painting capturing the soul of the Latvian proverb "${proverb}". The atmosphere is heavy with Baltic mystery: ancient oaks, twilight mist, glowing embers, and sacred natural light. Use a deep, textured palette inspired by northern nature and folklore. ABSOLUTELY NO TEXT, NO LETTERS, NO NUMBERS, NO WRITING. Purely visual symbolism without any specific artist references like Van Gogh.`
+    : `A cinematic historical oil painting illustrating a scene for the Latvian proverb "${proverb}": "${storyContext}". Authentic 19th-century Latvian farmhouse interior or countryside, traditional linen folk dress, soft candlelight or natural morning light through small windows, moody shadows (chiaroscuro). ABSOLUTELY NO TEXT, NO LABELS, NO CAPTIONS, NO WRITING. Pure visual art reflecting ancient Latvian life.`;
 
   const response = await ai.models.generateContent({
     model: 'gemini-2.5-flash-image',
