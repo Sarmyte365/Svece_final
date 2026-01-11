@@ -1,5 +1,5 @@
 
-import { GoogleGenAI, Type, GenerateContentResponse } from "@google/genai";
+import { GoogleGenAI, Type } from "@google/genai";
 
 const getAI = () => new GoogleGenAI({ apiKey: process.env.API_KEY || '' });
 
@@ -34,35 +34,9 @@ export const generateProverbStory = async (proverb: string) => {
 export const generateProverbIllustration = async (proverb: string, storyContext?: string, isSymbolic: boolean = false) => {
   const ai = getAI();
   
-  let prompt = "";
-  
-  if (isSymbolic) {
-    prompt = `Task: Create an artistic, metaphorical, and highly atmospheric visual representation of the Latvian proverb "${proverb}".
-    
-    CONCEPT: This should be a symbolic and associative image that captures the essence, spirit, and emotional depth of the proverb. 
-    It can be poetic and evocative. Use visual metaphors that resonate with Latvian culture and nature.
-    
-    VISUAL STYLE: 
-    - Ethereal oil painting with rich textures.
-    - Atmospheric lighting (moody, poetic, or radiant).
-    - Deep, resonant colors reflecting the natural world (amber, twilight blues, deep greens).
-    - Avoid literal text or interface elements.`;
-  } else {
-    prompt = `Task: Create a realistic and narrative historical scene that brings to life the folk wisdom story: "${storyContext}".
-    
-    STORY CONTEXT: ${storyContext}
-    
-    CRITICAL INSTRUCTIONS:
-    1. DEPICT REALISTIC EVENTS: Show a concrete moment of human action and interaction from the story. 
-    2. NO SYMBOLISM: This must be a literal frame from a historical event. No magic, no glowing icons.
-    3. HISTORICAL AUTHENTICITY: 19th-century Latvian setting. Traditional linen clothes, wooden farm buildings, period-accurate tools.
-    4. CINEMATIC NARRATIVE: Focus on facial expressions and the physical reality of the situation.
-    
-    VISUAL STYLE: 
-    - Realistic historical oil painting.
-    - Earthy tones, natural daylight or firelight.
-    - Chiaroscuro lighting to enhance the historical gravity.`;
-  }
+  const prompt = isSymbolic 
+    ? `Create a mystical, ethereal oil painting inspired by the essence of the Latvian proverb "${proverb}". Use a surreal, poetic style with atmospheric lighting, rich textures, and symbolic Latvian nature elements (mist, glowing amber, oak, twilight). Similar to a Van Gogh or starry night vibe but with Baltic folk motifs. STRICTLY NO TEXT, NO LETTERS, NO NUMBERS, AND NO CAPTIONS IN THE IMAGE. Purely visual fine art.`
+    : `A cinematic and realistic historical oil painting of a traditional Latvian scene: "${storyContext}". Set in 19th-century Latvia, showing authentic folk clothing, wooden tools, moody chiaroscuro lighting, and emotional human interaction. STRICTLY NO TEXT, NO WRITING, NO LABELS, NO LETTERS, AND NO CAPTIONS IN THE IMAGE. Purely visual storytelling through painting.`;
 
   const response = await ai.models.generateContent({
     model: 'gemini-2.5-flash-image',
@@ -76,10 +50,14 @@ export const generateProverbIllustration = async (proverb: string, storyContext?
     }
   });
 
-  for (const part of response.candidates?.[0]?.content?.parts || []) {
-    if (part.inlineData) {
-      return `data:image/png;base64,${part.inlineData.data}`;
+  const candidate = response.candidates?.[0];
+  if (candidate?.content?.parts) {
+    for (const part of candidate.content.parts) {
+      if (part.inlineData?.data) {
+        return `data:image/png;base64,${part.inlineData.data}`;
+      }
     }
   }
-  throw new Error("Neizdevās ģenerēt attēlu.");
+  
+  throw new Error("Attēla dati nav pieejami.");
 };
