@@ -9,7 +9,7 @@ const POPULAR_PROVERBS = [
   "Darbs dara darītāju",
   "Ko sēsi, to pļausi",
   "Runāšana sudrabs, klusēšana zelts",
-  "Pēc vārda kabatā nav jāmek lē"
+  "Pēc vārda kabatā nav jāmeklē"
 ];
 
 interface ImageResult {
@@ -117,8 +117,8 @@ const App: React.FC = () => {
                 type="text" 
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
-                placeholder="Ievadiet citu teicienu..."
-                className="w-full px-8 py-4 md:py-5 bg-[#0a0f1d]/90 border border-amber-900/30 rounded-full text-slate-100 placeholder-slate-500 focus:outline-none focus:border-amber-600/40 transition-all text-sm md:text-lg shadow-inner"
+                placeholder="Ieraksti citu teicienu..."
+                className="w-full px-6 py-4 md:py-5 bg-[#0a0f1d]/90 border border-amber-900/30 rounded-xl text-slate-100 placeholder-slate-500 focus:outline-none focus:border-amber-600/40 transition-all text-sm md:text-lg shadow-inner"
                 onKeyDown={(e) => {
                   if (e.key === 'Enter' && inputValue.trim()) {
                     handleProverbChange(inputValue);
@@ -127,7 +127,7 @@ const App: React.FC = () => {
               />
               <button 
                 onClick={() => inputValue.trim() && handleProverbChange(inputValue)}
-                className="absolute right-2 top-2 bottom-2 px-8 bg-[#c05c21] hover:bg-[#a64d1a] text-white rounded-full transition-colors font-bold text-xs md:text-sm uppercase tracking-widest shadow-lg"
+                className="absolute right-2 top-2 bottom-2 px-6 bg-[#c05c21] hover:bg-[#a64d1a] text-white rounded-lg transition-colors font-bold text-xs md:text-sm uppercase tracking-widest shadow-lg"
               >
                 Mainīt
               </button>
@@ -138,7 +138,7 @@ const App: React.FC = () => {
                 <button
                   key={p}
                   onClick={() => handleProverbChange(p)}
-                  className={`text-[10px] md:text-xs px-6 py-2 rounded-full border transition-all font-medium uppercase tracking-widest shadow-md ${
+                  className={`text-[10px] md:text-xs px-4 py-2 rounded-full border transition-all font-medium uppercase tracking-widest shadow-md ${
                     currentProverb === p 
                     ? 'bg-amber-600/20 text-amber-400 border-amber-500/40' 
                     : 'bg-black/40 hover:bg-black/60 text-slate-400 border-white/5'
@@ -168,7 +168,7 @@ const App: React.FC = () => {
       {showContent && (
         <main className="flex-grow container mx-auto px-4 md:px-8 lg:px-16 py-12 md:py-24 relative z-10">
           {error && (
-            <div className="mb-12 p-6 bg-red-950/20 border border-red-900/30 rounded-full text-red-200 text-center text-sm font-medium shadow-lg">
+            <div className="mb-12 p-6 bg-red-950/20 border border-red-900/30 rounded-lg text-red-200 text-center text-sm font-medium shadow-lg">
               {error}
             </div>
           )}
@@ -204,7 +204,7 @@ const App: React.FC = () => {
                       <p className="text-base md:text-lg text-slate-100 font-normal leading-relaxed opacity-90">{storyData.modernUsage}</p>
                     </div>
 
-                    <div className="mt-16 p-8 md:p-12 border border-white/5 bg-white/5 rounded-3xl shadow-2xl relative overflow-hidden">
+                    <div className="mt-16 p-8 md:p-12 border border-white/5 bg-white/5 rounded-2xl shadow-2xl relative overflow-hidden">
                       <div className="absolute top-0 right-0 p-4 opacity-[0.05]">
                          <LatvianSymbol type="jumis" className="w-16 h-16" />
                       </div>
@@ -217,14 +217,14 @@ const App: React.FC = () => {
                 </div>
               ) : status === AppStatus.LOADING_TEXT ? (
                  <div className="animate-pulse space-y-12">
-                   <div className="h-10 w-64 bg-slate-800 rounded-full" />
+                   <div className="h-10 w-64 bg-slate-800 rounded" />
                    <div className="space-y-4">
-                     <div className="h-6 w-32 bg-slate-800 rounded-full" />
-                     <div className="h-24 w-full bg-slate-800/50 rounded-2xl" />
+                     <div className="h-6 w-32 bg-slate-800 rounded" />
+                     <div className="h-24 w-full bg-slate-800/50 rounded-xl" />
                    </div>
                    <div className="space-y-4">
-                     <div className="h-6 w-32 bg-slate-800 rounded-full" />
-                     <div className="h-24 w-full bg-slate-800/50 rounded-2xl" />
+                     <div className="h-6 w-32 bg-slate-800 rounded" />
+                     <div className="h-24 w-full bg-slate-800/50 rounded-xl" />
                    </div>
                  </div>
               ) : null}
@@ -235,7 +235,7 @@ const App: React.FC = () => {
               {images.length > 0 ? (
                 <div className="flex flex-col gap-12 animate-fade-in">
                   {images.map((img, idx) => (
-                    <div key={idx} className="group relative rounded-3xl overflow-hidden shadow-[0_30px_70px_rgba(0,0,0,0.9)] border border-white/5 transition-all duration-700 hover:scale-[1.02] bg-black/40">
+                    <div key={idx} className="group relative rounded-2xl overflow-hidden shadow-[0_30px_70px_rgba(0,0,0,0.9)] border border-white/5 transition-all duration-700 hover:scale-[1.02] bg-black/40">
                       <img 
                         src={img.url} 
                         alt={`${currentProverb} - ${img.type === 'symbolic' ? 'Simboliski' : 'Stāsts'}`} 
@@ -252,7 +252,7 @@ const App: React.FC = () => {
               ) : (status === AppStatus.LOADING_IMAGE || status === AppStatus.LOADING_TEXT) ? (
                 <div className="flex flex-col gap-12">
                   {[0, 1].map((i) => (
-                    <div key={i} className="aspect-[16/9] bg-white/5 animate-pulse rounded-3xl flex items-center justify-center border border-white/5">
+                    <div key={i} className="aspect-[16/9] bg-white/5 animate-pulse rounded-2xl flex items-center justify-center border border-white/5">
                       <div className="flex flex-col items-center gap-2">
                         <div className="w-8 h-8 opacity-20"><LatvianSymbol type="auseklis" className="animate-spin-slow" /></div>
                         <span className="text-amber-500/20 text-[10px] font-semibold uppercase tracking-[0.4em] serif">Gleznojam ainu...</span>
