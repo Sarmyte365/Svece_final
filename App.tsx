@@ -92,6 +92,10 @@ const App: React.FC = () => {
 
   const showContent = storyData || images.length > 0 || status !== AppStatus.IDLE || error;
 
+  // Helpers to get specific image types safely
+  const symbolicImage = images.find(img => img.type === 'symbolic');
+  const storyImage = images.find(img => img.type === 'story');
+
   return (
     <div className="min-h-screen flex flex-col bg-transparent text-slate-100 font-sans relative">
       {/* Dynamic Background Symbols */}
@@ -164,108 +168,135 @@ const App: React.FC = () => {
         </div>
       </header>
 
-      {/* Main Content Area */}
+      {/* Main Content Area - Single Column Layout */}
       {showContent && (
-        <main className="flex-grow container mx-auto px-4 md:px-8 lg:px-16 py-12 md:py-24 relative z-10">
+        <main className="flex-grow max-w-4xl mx-auto px-4 md:px-8 py-12 md:py-24 relative z-10 w-full">
           {error && (
             <div className="mb-12 p-6 bg-red-950/20 border border-red-900/30 rounded-full text-red-200 text-center text-sm font-medium shadow-lg">
               {error}
             </div>
           )}
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24 items-start">
-            {/* Explanation Section */}
-            <section className="lg:col-span-7 space-y-16">
-              {storyData ? (
-                <div className="animate-fade-in space-y-16">
-                  <header>
-                    <div className="flex items-center gap-3 mb-2">
-                       <LatvianSymbol type="auseklis" className="w-8 h-8 opacity-20 text-amber-500" />
-                       <h2 className="text-3xl md:text-4xl font-bold text-amber-500 serif tracking-wide uppercase">Gudrības Mantojums</h2>
-                    </div>
-                    <div className="h-0.5 w-24 bg-amber-900/40" />
-                  </header>
-                  
-                  <div className="space-y-14">
-                    <div className="space-y-4">
-                      <h3 className="text-xl md:text-2xl font-semibold text-amber-200 serif">Skaidrojums</h3>
-                      <p className="text-base md:text-lg text-slate-100 font-normal leading-relaxed opacity-90">{storyData.definition}</p>
-                    </div>
-
-                    <div className="space-y-4 pt-4 border-l-2 border-amber-900/20 pl-6">
-                      <h3 className="text-xl md:text-2xl font-semibold text-amber-200 serif">Vēsturiskais fons</h3>
-                      <p className="text-base md:text-lg text-slate-100 font-normal leading-relaxed opacity-90">
-                        {storyData.history}
-                      </p>
-                    </div>
-
-                    <div className="space-y-4 pt-4 border-l-2 border-amber-900/20 pl-6">
-                      <h3 className="text-xl md:text-2xl font-semibold text-amber-200 serif">Mūsdienu lietojums</h3>
-                      <p className="text-base md:text-lg text-slate-100 font-normal leading-relaxed opacity-90">{storyData.modernUsage}</p>
-                    </div>
-
-                    <div className="mt-16 p-8 md:p-12 border border-white/5 bg-white/5 rounded-3xl shadow-2xl relative overflow-hidden">
-                      <div className="absolute top-0 right-0 p-4 opacity-[0.05]">
-                         <LatvianSymbol type="jumis" className="w-16 h-16" />
-                      </div>
-                      <h3 className="text-2xl md:text-3xl font-bold text-slate-100 serif mb-6 italic tracking-tight">Tautas viedums stāstā</h3>
-                      <p className="text-base md:text-lg text-slate-300 leading-relaxed font-light italic">
-                        "{storyData.story}"
-                      </p>
-                    </div>
+          {storyData ? (
+            <div className="animate-fade-in space-y-16">
+              {/* Gudrības Mantojums Section */}
+              <section className="space-y-8">
+                <header>
+                  <div className="flex items-center gap-3 mb-2">
+                     <LatvianSymbol type="auseklis" className="w-8 h-8 opacity-20 text-amber-500" />
+                     <h2 className="text-3xl md:text-4xl font-bold text-amber-500 serif tracking-wide uppercase">Gudrības Mantojums</h2>
                   </div>
-                </div>
-              ) : status === AppStatus.LOADING_TEXT ? (
-                 <div className="animate-pulse space-y-12">
-                   <div className="h-10 w-64 bg-slate-800 rounded-full" />
-                   <div className="space-y-4">
-                     <div className="h-6 w-32 bg-slate-800 rounded-full" />
-                     <div className="h-24 w-full bg-slate-800/50 rounded-2xl" />
-                   </div>
-                   <div className="space-y-4">
-                     <div className="h-6 w-32 bg-slate-800 rounded-full" />
-                     <div className="h-24 w-full bg-slate-800/50 rounded-2xl" />
-                   </div>
-                 </div>
-              ) : null}
-            </section>
+                  <div className="h-0.5 w-24 bg-amber-900/40" />
+                </header>
+                
+                <div className="space-y-6">
+                  <div className="space-y-4">
+                    <p className="text-base md:text-lg text-slate-100 font-normal leading-relaxed opacity-90">{storyData.definition}</p>
+                  </div>
 
-            {/* Visual Section */}
-            <section className="lg:col-span-5 sticky top-12 space-y-12">
-              {images.length > 0 ? (
-                <div className="flex flex-col gap-12 animate-fade-in">
-                  {images.map((img, idx) => (
-                    <div key={idx} className="group relative rounded-2xl overflow-hidden shadow-[0_30px_70px_rgba(0,0,0,0.9)] border border-white/5 transition-all duration-700 hover:scale-[1.02] bg-black/40">
+                  {/* Symbolic Image: Right under definition */}
+                  {symbolicImage ? (
+                    <div className="relative rounded-3xl overflow-hidden shadow-[0_30px_70px_rgba(0,0,0,0.9)] border border-white/5 bg-black/40 my-10">
                       <img 
-                        src={img.url} 
-                        alt={`${currentProverb} ilustrācija`} 
-                        className="w-full h-auto object-cover"
+                        src={symbolicImage.url} 
+                        alt="Simboliska interpretācija" 
+                        className="w-full h-auto object-cover max-h-[600px]"
                       />
                     </div>
-                  ))}
-                </div>
-              ) : (status === AppStatus.LOADING_IMAGE || status === AppStatus.LOADING_TEXT) ? (
-                <div className="flex flex-col gap-12">
-                  {[0, 1].map((i) => (
-                    <div key={i} className="aspect-[16/9] bg-white/5 animate-pulse rounded-2xl flex items-center justify-center border border-white/5">
+                  ) : status === AppStatus.LOADING_IMAGE ? (
+                    <div className="aspect-[16/9] bg-white/5 animate-pulse rounded-3xl flex items-center justify-center border border-white/5 my-10">
                       <div className="flex flex-col items-center gap-2">
                         <div className="w-8 h-8 opacity-20"><LatvianSymbol type="auseklis" className="animate-spin-slow" /></div>
-                        <span className="text-amber-500/20 text-[10px] font-semibold uppercase tracking-[0.4em] serif">Gleznojam ainu...</span>
+                        <span className="text-amber-500/20 text-[10px] font-semibold uppercase tracking-[0.4em] serif">Gleznojam simbolisko nozīmi...</span>
                       </div>
                     </div>
-                  ))}
+                  ) : null}
+
+                  <div className="space-y-4 pt-4 border-l-2 border-amber-900/20 pl-6">
+                    <h3 className="text-xl md:text-2xl font-semibold text-amber-200 serif">Vēsturiskais fons</h3>
+                    <p className="text-base md:text-lg text-slate-100 font-normal leading-relaxed opacity-90">
+                      {storyData.history}
+                    </p>
+                  </div>
+
+                  <div className="space-y-4 pt-4 border-l-2 border-amber-900/20 pl-6">
+                    <h3 className="text-xl md:text-2xl font-semibold text-amber-200 serif">Mūsdienu lietojums</h3>
+                    <p className="text-base md:text-lg text-slate-100 font-normal leading-relaxed opacity-90">{storyData.modernUsage}</p>
+                  </div>
                 </div>
-              ) : null}
-            </section>
-          </div>
+              </section>
+
+              {/* Tautas Viedums Stāstā Section */}
+              <section className="mt-24 space-y-8">
+                <header>
+                  <div className="flex items-center gap-3 mb-2">
+                     <LatvianSymbol type="jumis" className="w-8 h-8 opacity-20 text-amber-500" />
+                     <h2 className="text-3xl md:text-4xl font-bold text-slate-100 serif italic tracking-tight">Tautas viedums stāstā</h2>
+                  </div>
+                  <div className="h-0.5 w-24 bg-white/10" />
+                </header>
+
+                {/* Story Illustration Image: Right under story header */}
+                {storyImage ? (
+                  <div className="relative rounded-3xl overflow-hidden shadow-[0_30px_70px_rgba(0,0,0,0.9)] border border-white/5 bg-black/40 my-8">
+                    <img 
+                      src={storyImage.url} 
+                      alt="Stāsta ilustrācija" 
+                      className="w-full h-auto object-cover max-h-[600px]"
+                    />
+                  </div>
+                ) : status === AppStatus.LOADING_IMAGE ? (
+                  <div className="aspect-[16/9] bg-white/5 animate-pulse rounded-3xl flex items-center justify-center border border-white/5 my-8">
+                    <div className="flex flex-col items-center gap-2">
+                      <div className="w-8 h-8 opacity-20"><LatvianSymbol type="auseklis" className="animate-spin-slow" /></div>
+                      <span className="text-amber-500/20 text-[10px] font-semibold uppercase tracking-[0.4em] serif">Gleznojam stāsta ainu...</span>
+                    </div>
+                  </div>
+                ) : null}
+
+                <div className="p-8 md:p-12 border border-white/5 bg-white/5 rounded-3xl shadow-2xl relative overflow-hidden">
+                  <div className="absolute top-0 right-0 p-4 opacity-[0.05]">
+                     <LatvianSymbol type="jumis" className="w-16 h-16" />
+                  </div>
+                  <p className="text-base md:text-xl text-slate-300 leading-relaxed font-light italic">
+                    "{storyData.story}"
+                  </p>
+                </div>
+              </section>
+            </div>
+          ) : status === AppStatus.LOADING_TEXT ? (
+             <div className="animate-pulse space-y-12">
+               <div className="h-10 w-64 bg-slate-800 rounded-full" />
+               <div className="space-y-4">
+                 <div className="h-6 w-32 bg-slate-800 rounded-full" />
+                 <div className="h-24 w-full bg-slate-800/50 rounded-2xl" />
+               </div>
+               {/* Placeholder for symbolic image loading */}
+               <div className="aspect-[16/9] bg-slate-800/30 rounded-3xl" />
+               <div className="space-y-4">
+                 <div className="h-6 w-32 bg-slate-800 rounded-full" />
+                 <div className="h-24 w-full bg-slate-800/50 rounded-2xl" />
+               </div>
+             </div>
+          ) : null}
         </main>
       )}
 
       {/* Footer */}
       <footer className="py-20 px-6 bg-black text-center border-t border-white/5 mt-auto relative z-10">
         <div className="max-w-3xl mx-auto flex flex-col items-center gap-4">
-          <span className="text-2xl md:text-3xl uppercase tracking-[0.5em] font-bold text-amber-800/40 serif">Latviešu dzīvesziņa</span>
-          <p className="text-[10px] text-slate-800 tracking-widest uppercase font-medium">Mākslīgā intelekta interpretācija • 2026</p>
+          <span className="text-2xl md:text-4xl uppercase tracking-[0.5em] font-bold text-amber-500/80 serif">Latviešu dzīvesziņa</span>
+          <p className="text-sm text-slate-400 tracking-widest uppercase font-medium">Mākslīgā intelekta interpretācija • 2026</p>
+          <div className="mt-8">
+            <a 
+              href="https://www.threads.net/@sarmyte" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="text-xs text-slate-500 hover:text-amber-500 transition-colors uppercase tracking-[0.2em] font-semibold"
+            >
+              powered by @Sarmyte
+            </a>
+          </div>
         </div>
       </footer>
     </div>
